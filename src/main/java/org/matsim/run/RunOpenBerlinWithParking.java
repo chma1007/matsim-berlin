@@ -36,7 +36,7 @@ public class RunOpenBerlinWithParking extends OpenBerlinScenario {
 		LogManager.getLogger(RunOpenBerlinWithParking.class);
 
 	private static final String HUNDEKOPF_SHP =
-		"D:/berlin/input/v6.4/berlin hundekopf/berlin_hundekopf_ONLY_25832.shp";
+		"/net/work/mao/berlin/input/v6.4/berlin hundekopf/berlin_hundekopf_ONLY_25832.shp";
 
 	private static final double RATE = 2.5;
 	private static final String RATE_ATTR = "parking_rate";
@@ -50,7 +50,7 @@ public class RunOpenBerlinWithParking extends OpenBerlinScenario {
 		ParkingCostConfigGroup pc = new ParkingCostConfigGroup();
 		pc.setMode("car");
 		pc.setRateAttributeName(RATE_ATTR);
-		pc.setExcludedPrefixesFromString(""); // home 也收费
+		pc.setExcludedPrefixesFromString("");
 		config.addModule(pc);
 		return super.prepareConfig(config);
 	}
@@ -62,12 +62,11 @@ public class RunOpenBerlinWithParking extends OpenBerlinScenario {
 		MutableScenario scenario = (MutableScenario) controler.getScenario();
 		PreparedGeometry zone = loadZone(HUNDEKOPF_SHP);
 
-		// ========= ① 只标记 Hundekopf 内的 car link =========
 		int tagged = 0;
 
 		for (Link link : scenario.getNetwork().getLinks().values()) {
 
-			// ⭐ 关键：只对 car link 处理
+
 			if (!link.getAllowedModes().contains("car")) {
 				continue;
 			}
@@ -84,7 +83,7 @@ public class RunOpenBerlinWithParking extends OpenBerlinScenario {
 			tagged, RATE
 		);
 
-		// ========= ② 标记 resident =========
+
 		controler.addControlerListener((StartupListener) event -> {
 			int total = 0;
 			int residents = 0;
@@ -119,13 +118,13 @@ public class RunOpenBerlinWithParking extends OpenBerlinScenario {
 			log.info("Marked residents: {} / {}", residents, total);
 		});
 
-		// ========= ③ 注册 ParkingCostModule =========
+
 		controler.addOverridingModule(new ParkingCostModule());
 
-		// ========= ④ 注册 PersonMoneyEventsAnalysisModule =========
+
 		controler.addOverridingModule(new PersonMoneyEventsAnalysisModule());
 
-		// ========= ⑤ 自定义 Tracker =========
+
 		ParkingTracker tracker = new ParkingTracker(
 			scenario,
 			controler.getConfig().controller().getOutputDirectory()
@@ -149,7 +148,7 @@ public class RunOpenBerlinWithParking extends OpenBerlinScenario {
 		return PreparedGeometryFactory.prepare(g);
 	}
 
-	// ========= ParkingTracker =========
+
 	static class ParkingTracker implements
 		PersonMoneyEventHandler,
 		StartupListener,

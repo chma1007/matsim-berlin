@@ -1,17 +1,40 @@
-# build and IDE
+# Maven / build
 target/
+matsim-libs/
+${project.build.directory}/
+
+# Logs
+logs/
+*.log
+
+# Outputs
 output/
+output-*/
+analysis_out/
+input/**/output/
+
+# Large compressed files
+*.gz
+*.xml.gz
+*.csv.gz
+*.tsv.gz
+
+# Generated spatial analysis files
+analysis/spatial/*private_act_events.xml
+analysis/spatial/*travel_events.xml
+analysis/spatial/*activity_dataset.csv
+analysis/spatial/*activity_grouped.csv
+analysis/spatial/*activity_cleaned.csv
+analysis/spatial/all_person_ids.txt
+analysis/spatial/act_person_ids.txt
+
+# IDE / OS
 .idea/
 .vscode/
 *.iml
-*.log
+.DS_Store
+Thumbs.db
 
-# large binaries or tools
+# Local installers
 *.exe
 *.msi
-matsim-libs/
-
-# optional: only ignore large raw input files, not the whole folder
-# DO NOT ignore full input/ if you want reproducibility
-# input/gtfs/
-# input/v6.4/berlin-v6.4-network-with-pt.xml

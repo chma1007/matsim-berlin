@@ -32,17 +32,16 @@ import java.nio.file.*;
 import java.io.*;
 import java.util.*;
 
-
 public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 
 	private static final Logger log = LogManager.getLogger(RunOpenBerlinWithMaut.class);
 
-	// === 路径 ===
-	private static final String HUNDEKOPF_SHP = "D:/berlin/input/v6.4/berlin hundekopf/hundekopf_zones_25832.shp";
+	
+	private static final String HUNDEKOPF_SHP = "/net/work/mao/berlin/input/v6.4/berlin hundekopf/berlin_hundekopf_ONLY_25832.shp";
 	private static final String RP_FILENAME = "maut_distance_allLinks.xml";
 
-	// === 费率 ===
-	private static final double EUR_PER_M = 0.8 / 1000.0;
+	
+	private static final double EUR_PER_M = 0.8 / 1000.0; 
 
 	public static void main(String[] args) { run(RunOpenBerlinWithMaut.class, args); }
 
@@ -56,22 +55,22 @@ public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 	protected void prepareControler(Controler controler) {
 		super.prepareControler(controler);
 
-		// 1) 读取 Hundekopf 区域
+		
 		PreparedGeometry zone = loadUnion(HUNDEKOPF_SHP);
 		log.info("Hundekopf zone loaded.");
 
-		// 2) 选择 Hundekopf 内的所有 car link
+		
 		Set<Id<Link>> tolledLinks = selectLinksInsideZone(controler.getScenario().getNetwork(), zone);
 		log.info("Links inside Hundekopf zone: {}", tolledLinks.size());
 
-		// === 新增：打上 toll_car 属性 ===
+		
 		for (Id<Link> id : tolledLinks) {
 			Link link = controler.getScenario().getNetwork().getLinks().get(id);
 			link.getAttributes().putAttribute("toll_car", true);
 		}
 		log.info("Marked {} links with attribute toll_car=true", tolledLinks.size());
 
-		// 3) 生成 roadpricing XML 文件
+		
 		String outDir = controler.getConfig().controller().getOutputDirectory();
 		URL rpOutUrl = IOUtils.extendUrl(controler.getConfig().getContext(), outDir + "/" + RP_FILENAME);
 		Path rpPath;
@@ -84,12 +83,12 @@ public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 		writeSimpleDistanceScheme(tolledLinks, EUR_PER_M, rpPath.toString());
 		log.info("Roadpricing XML written: {}", rpPath);
 
-		// 4) 配置 RoadPricing 模块
+		
 		RoadPricingConfigGroup rpCfg = ConfigUtils.addOrGetModule(controler.getConfig(), RoadPricingConfigGroup.class);
 		rpCfg.setTollLinksFile(rpPath.toString());
 		controler.addOverridingModule(new RoadPricingModule());
 
-		// 5) 输出 PersonMoneyEvents TSV
+		
 		RoadPricingEventsLogger logger = new RoadPricingEventsLogger();
 		controler.addOverridingModule(new AbstractModule() {
 			@Override public void install() {
@@ -100,9 +99,9 @@ public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 		});
 	}
 
-	// === Helper 方法 ===
+	
 
-	/** 合并 shapefile 区域为单一多边形。 */
+	
 	private static PreparedGeometry loadUnion(String shpPath) {
 		URL url = IOUtils.resolveFileOrResource(shpPath);
 		var preparedParts = ShpGeometryUtils.loadPreparedGeometries(url);
@@ -112,7 +111,7 @@ public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 		return PreparedGeometryFactory.prepare(union);
 	}
 
-	/** 选择所有 Hundekopf 内的 car link。 */
+	
 	private static Set<Id<Link>> selectLinksInsideZone(Network net, PreparedGeometry zone) {
 		Set<Id<Link>> ids = new HashSet<>();
 		for (Link link : net.getLinks().values()) {
@@ -126,7 +125,7 @@ public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 		return ids;
 	}
 
-	/** 生成简单的 distance-based 收费方案（全天相同费率）。 */
+	
 	private static void writeSimpleDistanceScheme(Set<Id<Link>> linkIds, double eurPerMeter, String outFile) {
 		var tmp = ScenarioUtils.createScenario(ConfigUtils.createConfig());
 		RoadPricingSchemeImpl scheme = RoadPricingUtils.addOrGetMutableRoadPricingScheme(tmp);
@@ -159,12 +158,12 @@ public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 			double paid = -ev.getAmount();
 			String pid = ev.getPersonId().toString();
 
-			// ====== 🔥 NEW: 区分居民 & 非居民 ======
+			
 			String type;
 			if (pid.startsWith("berlin_")) {
-				type = "residential toll";        // 居民收费
+				type = "residential toll";        
 			} else {
-				type = "non-residential toll";    // 非居民收费
+				type = "non-residential toll";   
 			}
 
 			synchronized (this) {

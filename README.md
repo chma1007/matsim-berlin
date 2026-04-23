@@ -1,3 +1,65 @@
+# MATSim Berlin – Toll vs Parking Thesis Project
+
+This repository contains the implementation of my master thesis:
+
+**"Comparative Assessment of Toll and Parking Pricing Policies in Berlin Using MATSim"**
+
+The project is based on the MATSim Open Berlin Scenario and extends it by implementing and comparing:
+
+- Distance-based road pricing (Maut)
+- Uniform parking pricing policies
+- Behavioral, spatial and welfare analysis
+
+---
+
+## About this project
+
+This work was developed at **Technische Universität Berlin (TU Berlin)** in the field of transport planning and simulation.
+
+The implementation builds upon the official MATSim Berlin scenario provided by the  
+[Transport Systems Planning and Transport Telematics group (VSP)](https://www.vsp.tu-berlin.de).
+
+---
+
+## Research Focus
+
+The thesis investigates:
+
+- How toll and parking policies influence travel behavior and mode choice  
+- Differences between residents inside and outside the S-Bahn Ring (Hundekopf)  
+- Distribution of monetary costs across population groups  
+- Effects on activity patterns and travel time  
+- Welfare impacts using MATSim score  
+
+---
+
+## Project Structure
+
+- `src/` – MATSim implementation (toll & parking logic)
+- `input/` – scenario and configuration files
+- `scripts/` – cluster execution scripts
+- `analysis/` – Python-based data processing
+- `r/` – statistical analysis and visualization
+- `run_*.sh` – scenario execution (base / maut / parking)
+
+---
+
+## Notes
+
+Large simulation outputs (e.g., events, acts, logs) are excluded due to size constraints.  
+This repository contains only code, configurations, and analysis scripts.
+
+---
+
+## Original Scenario
+
+This project is based on the MATSim Open Berlin Scenario:
+
+https://github.com/matsim-scenarios/matsim-berlin
+
+Please cite the original scenario as described in the official repository and related publications.
+
+## Original MATSim Berlin Documentation
 [![Build Status](https://github.com/matsim-scenarios/matsim-berlin/actions/workflows/build.yaml/badge.svg?branch=main)](https://github.com/matsim-scenarios/matsim-berlin/actions/workflows/build.yaml)
 ![license](https://img.shields.io/github/license/matsim-scenarios/matsim-berlin.svg)
 ![JDK](https://img.shields.io/badge/JDK-21+-green.svg)

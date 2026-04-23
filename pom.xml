@@ -321,16 +321,10 @@
 		<plugins>
 
 			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.10.1</version>
-					<configuration>
-						<excludes>
-							<exclude>**/legacy/**</exclude>
-						</excludes>
-					</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
 			</plugin>
-
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -387,7 +381,6 @@
 				</configuration>
 			</plugin>
 
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -411,8 +404,7 @@
 										<Specification-Vendor>org.matsim</Specification-Vendor>
 										<Implementation-Vendor>org.matsim</Implementation-Vendor>
 										<Implementation-Version>${project.version}</Implementation-Version>
-										<!--suppress
-										UnresolvedMavenProperty -->
+										<!--suppress UnresolvedMavenProperty -->
 										<SCM-Revision>${git.commit.id.describe}</SCM-Revision>
 										<Multi-Release>true</Multi-Release>
 									</manifestEntries>
@@ -493,6 +485,15 @@
 	</reporting>
 
 	<repositories>
+		<!--Note
+		that in general repositories are not transitive, so they need to be repeated at every level
+		where needed.-->
+		<repository>
+			<!-- Geotools is not on Maven central -->
+			<id>osgeo</id>
+			<name>Geotools repository</name>
+			<url>https://repo.osgeo.org/repository/release/</url>
+		</repository>
 		<repository>
 			<!-- Repository for MATSim (MATSim is not on Maven central, releases and snapshots) -->
 			<id>matsim</id>
@@ -522,7 +523,5 @@
 			<url>https://maven.pkg.github.com/matsim-scenarios/matsim-berlin</url>
 		</repository>
 	</distributionManagement>
-
-
 
 </project>
