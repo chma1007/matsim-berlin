@@ -43,9 +43,9 @@ import org.matsim.core.utils.geometry.geotools.MGC;
 import org.matsim.core.utils.gis.ShapeFileReader;
 
 /**
-* @author ikaddoura
+ * @author ikaddoura
  * @deprecated Since class has not been tested since geotools API changes.
-*/
+ */
 @Deprecated
 public final class BerlinShpUtils {
 
@@ -135,19 +135,18 @@ public final class BerlinShpUtils {
 	}
 
 	private static Point getRandomPointInFeature(Random rnd, Geometry g)
-    {
-        Point p = null;
-        double x, y;
-        do {
-            x = g.getEnvelopeInternal().getMinX() + rnd.nextDouble()
-                    * (g.getEnvelopeInternal().getMaxX() - g.getEnvelopeInternal().getMinX());
-            y = g.getEnvelopeInternal().getMinY() + rnd.nextDouble()
-                    * (g.getEnvelopeInternal().getMaxY() - g.getEnvelopeInternal().getMinY());
-            p = MGC.xy2Point(x, y);
-        }
-        while (!g.contains(p));
-        return p;
-    }
+	{
+		Point p = null;
+		double x, y;
+		do {
+			x = g.getEnvelopeInternal().getMinX() + rnd.nextDouble()
+				* (g.getEnvelopeInternal().getMaxX() - g.getEnvelopeInternal().getMinX());
+			y = g.getEnvelopeInternal().getMinY() + rnd.nextDouble()
+				* (g.getEnvelopeInternal().getMaxY() - g.getEnvelopeInternal().getMinY());
+			p = MGC.xy2Point(x, y);
+		}
+		while (!g.contains(p));
+		return p;
+	}
 
 }
-

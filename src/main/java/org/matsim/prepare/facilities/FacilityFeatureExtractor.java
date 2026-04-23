@@ -35,8 +35,8 @@ final class FacilityFeatureExtractor {
 	private final Object2IntMap<String> types;
 
 	FacilityFeatureExtractor(String crs, Object2IntMap<String> types,
-									Long2ObjectMap<Feature> entities, Long2ObjectMap<Feature> pois,
-									Long2ObjectMap<Feature> landuse) throws FactoryException {
+							 Long2ObjectMap<Feature> entities, Long2ObjectMap<Feature> pois,
+							 Long2ObjectMap<Feature> landuse) throws FactoryException {
 
 		this.entities = createIndex(entities);
 		this.pois = createIndex(pois);

@@ -1,0 +1,2 @@
+org.matsim.dashboard.BerlinDashboardProvider
+org.matsim.simwrapper.dashboard.PersonMoneyDashboardProvider

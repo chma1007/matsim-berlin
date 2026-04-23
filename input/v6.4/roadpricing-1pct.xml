@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE roadpricing SYSTEM "http://www.matsim.org/files/dtd/roadpricing_v1.dtd">
+
+<roadpricing type="link" name="test case">
+
+	<description>Eine Kordonmaut für das einfache Test-Netzwerk.</description>
+
+    <links>
+        <!-- 在这里填入进入 cordon 区域的边界 link IDs，例如城市中心入口 -->
+        <link id="-1000055665" />
+		<link id="-100012092" />
+		<link id="-1000268036" />
+		<link id="-1000471322" />
+    </links>
+
+    <!-- 每个时间段的收费金额，单位是模拟币（通常默认等于欧元） -->
+    <cost start_time="06:00:00" end_time="10:00:00" amount="1.00"/>
+    <cost start_time="10:00:00" end_time="15:00:00" amount="0.50"/>
+    <cost start_time="15:00:00" end_time="19:00:00" amount="1.00"/>
+</roadpricing>
