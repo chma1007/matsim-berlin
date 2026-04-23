@@ -32,11 +32,7 @@ import java.nio.file.*;
 import java.io.*;
 import java.util.*;
 
-/**
- * 简化版 Maut：Hundekopf 区域内所有 car link 都按距离收费（每 km 2.5 €）。
- * 无时间段、无折扣、无道路类型筛选。
- * 同时给收费 link 打上属性 toll_car=true，方便可视化与对比。
- */
+
 public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 
 	private static final Logger log = LogManager.getLogger(RunOpenBerlinWithMaut.class);
@@ -46,7 +42,7 @@ public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 	private static final String RP_FILENAME = "maut_distance_allLinks.xml";
 
 	// === 费率 ===
-	private static final double EUR_PER_M = 2.5 / 1000.0;  // 每米 0.0025 €
+	private static final double EUR_PER_M = 0.8 / 1000.0;
 
 	public static void main(String[] args) { run(RunOpenBerlinWithMaut.class, args); }
 
@@ -142,7 +138,6 @@ public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 		new RoadPricingWriterXMLv1(scheme).writeFile(outFile);
 	}
 
-	/** 简单事件记录器，输出 personCostEvents.tsv（与停车方案一致） */
 	static class RoadPricingEventsLogger implements PersonMoneyEventHandler, StartupListener, ShutdownListener {
 		private PrintWriter out;
 		private Path tsvPath;
@@ -156,26 +151,43 @@ public class RunOpenBerlinWithMaut extends OpenBerlinScenario {
 				out = new PrintWriter(new FileWriter(tsvPath.toFile()));
 				out.println("time\tpersonId\tamount\ttype");
 			} catch (IOException ex) {
-				throw new RuntimeException("Cannot open TSV for road pricing events", ex);
+				throw new RuntimeException("Cannot open TSV for toll events", ex);
 			}
 		}
 
 		@Override public void handleEvent(PersonMoneyEvent ev) {
-			double paid = -ev.getAmount(); // 支出→正值
+			double paid = -ev.getAmount();
+			String pid = ev.getPersonId().toString();
+
+			// ====== 🔥 NEW: 区分居民 & 非居民 ======
+			String type;
+			if (pid.startsWith("berlin_")) {
+				type = "residential toll";        // 居民收费
+			} else {
+				type = "non-residential toll";    // 非居民收费
+			}
+
 			synchronized (this) {
 				out.printf(Locale.ROOT, "%.1f\t%s\t%.2f\t%s%n",
-					ev.getTime(), ev.getPersonId(), paid, ev.getPurpose());
+					ev.getTime(),
+					ev.getPersonId(),
+					paid,
+					type);
 			}
+
 			total += paid;
 		}
 
-		@Override public void reset(int iteration) { }
+		@Override public void reset(int iteration) {}
+
 		@Override public void notifyShutdown(ShutdownEvent e) {
 			if (out != null) {
 				out.flush();
 				out.close();
 			}
-			log.info("Total road pricing revenue: {} €", String.format(Locale.ROOT,"%.2f", total));
+			log.info("Total road pricing revenue: {} €",
+				String.format(Locale.ROOT,"%.2f", total));
 		}
 	}
+
 }

@@ -39,7 +39,7 @@
 		<param name="inputFacilitiesFile" value="https://svn.vsp.tu-berlin.de/repos/public-svn/matsim/scenarios/countries/de/berlin/berlin-v6.4/input/berlin-v6.4-facilities.xml.gz"/>
 	</module>
 	<module name="routing">
-		<param name="networkModes" value="car,truck,freight,ride,bike"/>
+		<param name="networkModes" value="car,truck,freight,bike"/>
 		<param name="accessEgressType" value="accessEgressModeToLink"/>
 		<param name="clearDefaultTeleportedModeParams" value="true"/>
 		<parameterset type="teleportedModeParameters">
@@ -65,7 +65,7 @@
 	</module>
 
 	<module name="subtourModeChoice">
-		<param name="modes" value="car,pt,bike,walk,ride"/>
+		<param name="modes" value="car,pt,bike,walk"/>
 		<param name="chainBasedModes" value="car,bike"/>
 		<param name="considerCarAvailability" value="true"/>
 		<param name="behavior" value="betweenAllAndFewerConstraints"/>
@@ -123,18 +123,6 @@
 				<!-- only petrol price 2022, other cost components were excluded -->
 				<param name="monetaryDistanceRate" value="-1.49E-4" />
 				<param name="mode" value="car" />
-			</parameterset>
-			<parameterset type="modeParams">
-				<param name="constant" value="-1.153972863285258" />
-				<param name="dailyMonetaryConstant" value="0.0" />
-				<param name="dailyUtilityConstant" value="0.0" />
-				<param name="marginalUtilityOfDistance_util_m" value="0.0" />
-				<!-- alpha=1 -->
-				<!-- (alpha)*beta_performing+(alpha+1)*car_marginalUtilityOfDistance_util_m -->
-				<param name="marginalUtilityOfTraveling_util_hr" value="-6.88" />
-				<!-- alpha*car_monetaryDistanceRate -->
-				<param name="monetaryDistanceRate" value="-1.49E-4" />
-				<param name="mode" value="ride" />
 			</parameterset>
 			<parameterset type="modeParams">
 				<param name="constant" value="0.43220302370275404" />

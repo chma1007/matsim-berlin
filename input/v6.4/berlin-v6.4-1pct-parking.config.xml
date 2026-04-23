@@ -74,12 +74,10 @@
 		written to a file. `0' disables trips writing completely. -->
 		<param name="writeTripsInterval" value="50" />
 	</module>
-	<module name="parkingCosts">
-		<param name="useParkingCost" value="true" />
-		<param name="linkAttributePrefix" value="pc_" />
-		<param name="modesWithParkingCosts" value="car" />
-		<param name="activityTypesWithoutParkingCost" value="home,freight" />
+	<module name="parkingCost">
+		<param name="mode" value="car"/>
 	</module>
+
 
 
 
@@ -498,7 +496,7 @@
 		for helper modes such as for non_network_walk -->
 		<param name="clearDefaultTeleportedModeParams" value="true" />
 		<!-- All the modes for which the router is supposed to generate network routes (like car) -->
-		<param name="networkModes" value="car,truck,freight,ride,bike" />
+		<param name="networkModes" value="car,truck,freight,bike" />
 		<!-- Defines whether the network consistency should be checked. -->
 		<param name="networkRouteConsistencyCheck" value="abortOnInconsistency" />
 		<!-- strength of the randomness for the utility of money in routing under toll.  Leads to
@@ -35848,18 +35846,6 @@
 				<param name="typicalDurationScoreComputation" value="relative" />
 			</parameterset>
 			<parameterset type="activityParams">
-				<param name="activityType" value="ride interaction" />
-				<param name="closingTime" value="undefined" />
-				<param name="earliestEndTime" value="undefined" />
-				<param name="latestStartTime" value="undefined" />
-				<param name="minimalDuration" value="undefined" />
-				<param name="openingTime" value="undefined" />
-				<param name="priority" value="1.0" />
-				<param name="scoringThisActivityAtAll" value="false" />
-				<param name="typicalDuration" value="undefined" />
-				<param name="typicalDurationScoreComputation" value="relative" />
-			</parameterset>
-			<parameterset type="activityParams">
 				<param name="activityType" value="bike interaction" />
 				<param name="closingTime" value="undefined" />
 				<param name="earliestEndTime" value="undefined" />
@@ -35911,15 +35897,6 @@
 				<param name="marginalUtilityOfTraveling_util_hr" value="0.0" />
 				<param name="mode" value="car" />
 				<!-- [unit_of_money/m] conversion of distance into money. Normally negative. -->
-				<param name="monetaryDistanceRate" value="-1.49E-4" />
-			</parameterset>
-			<parameterset type="modeParams">
-				<param name="constant" value="-1.153972863285258" />
-				<param name="dailyMonetaryConstant" value="0.0" />
-				<param name="dailyUtilityConstant" value="0.0" />
-				<param name="marginalUtilityOfDistance_util_m" value="0.0" />
-				<param name="marginalUtilityOfTraveling_util_hr" value="-6.88" />
-				<param name="mode" value="ride" />
 				<param name="monetaryDistanceRate" value="-1.49E-4" />
 			</parameterset>
 			<parameterset type="modeParams">
@@ -36032,7 +36009,7 @@
 		agent is allowed to use the same 'chain-based' vehicle for both subtours. -->
 		<param name="coordDistance" value="100.0" />
 		<!-- Defines all the modes available, including chain-based modes, seperated by commas -->
-		<param name="modes" value="car,pt,bike,walk,ride" />
+		<param name="modes" value="car,pt,bike,walk" />
 		<!-- Defines the probability of changing a single trip for a unchained mode instead of
 		subtour. -->
 		<param name="probaForRandomSingleTripMode" value="0.5" />
