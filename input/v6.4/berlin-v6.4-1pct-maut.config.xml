@@ -54,7 +54,7 @@
 		<param name="writeTripsInterval" value="50" />
 	</module>
 	<module name="roadpricing">
-		<param name="tollLinksFile" value="D:/berlin/input/v6.4/roadpricing-1pct.xml"/>
+		<param name="tollLinksFile" value="/net/work/mao/berlin/output/maut-10pct-500/maut_distance_allLinks.xml"/>
 	</module>
 
 	<module name="counts" >
